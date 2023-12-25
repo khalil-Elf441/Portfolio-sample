@@ -4,41 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khalil EL. - Portfolio</title>
+ <!-- Include FontAwesome library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>khalil-elf441 - Cloud DevOps Engineer</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            background-color: #f5f5f5; /* GitHub background gray */
         }
 
         header {
-            background-color: #333;
-            color: white;
+            background-color: #24292e; /* GitHub header color */
+            color: #ffffff; /* White text */
             text-align: center;
             padding: 1em;
         }
 
-        section {
-            padding: 2em;
-        }
-
-        h2 {
-            color: #333;
+        h1 {
+            font-size: 2em;
+            margin: 0.2em 0;
         }
 
         p {
-            line-height: 1.6;
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        section {
+            padding: 2em;
+            background-color: #ffffff; /* White background */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Light shadow */
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        h2 {
+            color: #0366d6; /* GitHub blue heading color */
+            border-bottom: 2px solid #0366d6;
+            padding-bottom: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
 
         .project {
+            width: 30%;
             margin-bottom: 2em;
+            border: 1px solid #e1e4e8; /* GitHub border color */
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            background-color: #ffffff; /* White background */
+            position: relative;
+        }
+
+        .project:hover {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 1em;
+        }
+
+        .project h3 {
+            color: #0366d6; /* GitHub blue heading color */
+            margin-top: 0;
+        }
+
+        .project p {
+            color: #586069; /* GitHub gray text color */
+            line-height: 1.4;
+        }
+
+        .project a {
+            color: #0366d6; /* GitHub blue link color */
+            text-decoration: none;
+            display: block;
+            margin-top: 1em;
+            transition: color 0.3s;
+        }
+
+        .project a:hover {
+            color: #032f62; /* Darker blue on hover */
         }
 
         footer {
-            background-color: #333;
-            color: white;
+            background-color: #24292e; /* GitHub footer color */
+            color: #ffffff; /* White text */
             text-align: center;
             padding: 1em;
             position: fixed;
@@ -51,37 +112,63 @@
 <body>
 
     <header>
-        <h1>Your Name</h1>
-        <p>Web Developer</p>
+        <h1>khalil-elf441</h1>
+        <p>Cloud DevOps Engineer</p>
     </header>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Write a brief introduction about yourself here.</p>
-    </section>
-
     <section id="projects">
-        <h2>Projects</h2>
-        <div class="project">
-            <h3>Project 1</h3>
-            <p>Description of project 1.</p>
+        <h2>GitHub Projects</h2>
+        <div class="projects" id="github-projects">
+            <!-- GitHub projects will be dynamically added here -->
         </div>
-        <div class="project">
-            <h3>Project 2</h3>
-            <p>Description of project 2.</p>
-        </div>
-        <!-- Add more projects as needed -->
     </section>
 
     <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: -@example.com</p>
-        <p>GitHub: github.com/yourusername</p>
+        <!--h2>Contact</h2-->
+        <!--p>Email: your.email@example.com</p-->
+        <!--p>LinkedIn: linkedin.com/in/yourprofile</p-->
+                <p>
+            GitHub: <a href="https://github.com/khalil-elf441" target="_blank">
+                <i class="fab fa-github"></i> khalil-elf441
+            </a>
+        </p>
     </section>
 
     <footer>
-        &copy; 2023 Khalil EL. - Portfolio
+        &copy; 2023 khalil-elf441 - Cloud DevOps Engineer Portfolio
     </footer>
+
+    <script>
+        // Fetch GitHub repositories using GitHub API
+        const username = 'khalil-elf441'; // Replace with your GitHub username
+        const apiUrl = `https://api.github.com/users/${username}/repos`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(repositories => {
+                // Sort repositories by last updated date (descending order)
+                repositories.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+                const projectsContainer = document.getElementById('github-projects');
+                repositories.slice(0, 6).forEach(repo => {
+                    const lastUpdatedDate = new Date(repo.updated_at);
+                    const currentYear = new Date().getFullYear();
+
+                    const projectDiv = document.createElement('div');
+                    projectDiv.className = 'project';
+                    projectDiv.innerHTML = `
+                        <div class="project-content">
+                            <h3>${repo.name}</h3>
+                            <p>${repo.description || 'No description available'}</p>
+                            <p>Last Updated: ${lastUpdatedDate.getFullYear() >= currentYear ? lastUpdatedDate.toLocaleDateString() : currentYear}</p>
+                            <a href="${repo.html_url}" target="_blank">View on GitHub</a>
+                        </div>
+                    `;
+                    projectsContainer.appendChild(projectDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching GitHub repositories:', error));
+    </script>
 
 </body>
 
